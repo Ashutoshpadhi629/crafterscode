@@ -1,14 +1,20 @@
-import Image from "next/image";
 import Link from "next/link";
 import { ThemeToggle } from "../components/theme-toggler";
 import DashboardItems from "../components/dashbord-items";
 import { SquareKanban } from "lucide-react";
 
-export default function DashboardLayout({
+import { UserButton } from "../components/user-button";
+import { SignInButton } from "../components/auth-page";
+import getSession from "@/lib/getSession";
+
+export default async function DashboardLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const session = await getSession();
+  const user = session?.user;
+
   return (
     <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[80px_1fr]">
       <div className="hidden md:block bg-muted-foreground/10 dark:bg-muted/10">
@@ -31,6 +37,8 @@ export default function DashboardLayout({
         <header className="flex h-14 items-center gap-4 border-b  px-4 lg:h-[60px] lg:px-6 bg-muted-foreground/10 dark:bg-muted/10">
           <div className="ml-auto flex item-cneter gap-x-5">
             <ThemeToggle />
+
+            {user ? <UserButton user={user} /> : <SignInButton />}
           </div>
         </header>
 

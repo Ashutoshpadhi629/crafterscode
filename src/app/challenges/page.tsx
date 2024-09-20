@@ -1,3 +1,4 @@
+import { Badge } from "@/components/ui/badge";
 import {
   Card,
   CardContent,
@@ -13,8 +14,17 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import getSession from "@/lib/getSession";
+import { redirect } from "next/navigation";
 
-export default function ChallegesRoute() {
+export default async function ChallegesRoute() {
+  const session = await getSession();
+  const user = session?.user;
+
+  if (!user) {
+    redirect("/api/auth/signin?callbackUrl=/challenges");
+  }
+
   return (
     <>
       <Card>
@@ -34,6 +44,7 @@ export default function ChallegesRoute() {
                 <TableHead>Modules</TableHead>
                 <TableHead>Progress</TableHead>
                 <TableHead>Attempts</TableHead>
+                <TableHead>Status</TableHead>
               </TableRow>
             </TableHeader>
 
@@ -46,6 +57,14 @@ export default function ChallegesRoute() {
                 <TableCell>0/20</TableCell>
                 <TableCell>0%</TableCell>
                 <TableCell>0</TableCell>
+                <TableCell>
+                  <Badge
+                    variant={"outline"}
+                    className="bg-green-500/10 text-green-500"
+                  >
+                    Pending
+                  </Badge>
+                </TableCell>
               </TableRow>
 
               <TableRow>
@@ -56,6 +75,14 @@ export default function ChallegesRoute() {
                 <TableCell>0/10</TableCell>
                 <TableCell>0%</TableCell>
                 <TableCell>0</TableCell>
+                <TableCell>
+                  <Badge
+                    variant={"outline"}
+                    className="bg-green-500/10 text-green-500"
+                  >
+                    Pending
+                  </Badge>
+                </TableCell>
               </TableRow>
             </TableBody>
           </Table>

@@ -1,4 +1,4 @@
-import { FilePlus, Settings, Swords } from "lucide-react";
+import { Settings, Swords } from "lucide-react";
 
 export const navLinks = [
   {
@@ -6,11 +6,7 @@ export const navLinks = [
     href: "/challenges",
     icon: Swords,
   },
-  {
-    name: "Create-Challenge",
-    href: "/challenges/create",
-    icon: FilePlus,
-  },
+
   {
     name: "Settings",
     href: "/challenges/settings",

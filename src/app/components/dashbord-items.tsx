@@ -5,15 +5,20 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { navLinks } from "@/constants/data";
+import { navLinks } from "@/lib/data";
 import { cn } from "@/lib/utils";
 import { TooltipContent } from "@radix-ui/react-tooltip";
+import { FilePlus } from "lucide-react";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
 
 const DashboardItems = () => {
   const pathname = usePathname();
+  const { data } = useSession();
+  console.log(data);
+
   return (
     <>
       {navLinks.map((item, idx) => (
@@ -31,7 +36,7 @@ const DashboardItems = () => {
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger className="">
-                <item.icon className="size-6 " />
+                <item.icon className="size-6" />
               </TooltipTrigger>
               <TooltipContent side="top" className="p-1">
                 <p className="text-sm font-semibold dark:text-white text-zinc-700">
@@ -40,9 +45,34 @@ const DashboardItems = () => {
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
-          {/* {item.name} */}
         </Link>
       ))}
+
+      {data?.user?.role === "admin" && (
+        <Link
+          href="/challenges/create"
+          className={cn(
+            `size-10  flex items-center justify-center rounded-full my-2 ${
+              pathname === "/challenges/create"
+                ? "bg-zinc-800 text-white dark:bg-white rounded-full dark:text-zinc-700 hover:bg-zinc-600 dark:hover:bg-white/80"
+                : "hover:bg-zinc-300 transition-all dark:hover:bg-zinc-600"
+            }`
+          )}
+        >
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger className="">
+                <FilePlus className="size-6" />
+              </TooltipTrigger>
+              <TooltipContent side="top" className="p-1">
+                <p className="text-sm font-semibold dark:text-white text-zinc-700">
+                  Create
+                </p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        </Link>
+      )}
     </>
   );
 };
