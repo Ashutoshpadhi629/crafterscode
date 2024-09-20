@@ -7,6 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "db:migrate":"pnpx prisma migrate dev",
     "db:studio": "pnpm dlx prisma studio",
     "db:push": "pnpm dlx prisma db push"
   },
